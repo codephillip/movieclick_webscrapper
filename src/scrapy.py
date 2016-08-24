@@ -1,6 +1,8 @@
 from bs4 import BeautifulSoup
+from urllib2 import urlopen
 
-soup = BeautifulSoup(open('/home/codephillip/Downloads/crapme/Movies 2016.html'), 'html.parser')
+# soup = BeautifulSoup(open('/home/codephillip/Downloads/crapme/Movies 2016.html'), 'html.parser')
+soup = BeautifulSoup(urlopen('https://teaser-trailer.com/movies-2016.html'), 'lxml')
 
 
 def get_movie_titles():
@@ -68,16 +70,63 @@ def get_movie_images():
         print(x)
         count += 1
 
-        # remove last link but 19links are missing
-        mylist3 = list()
-        mylist3 = mylist2[0:98]
-        for x in mylist3:
-            print(x)
+    # remove last link but 19links are missing
+    mylist3 = list()
+    mylist3 = mylist2[0:98]
+    for x in mylist3:
+        print(x)
+
+
+def get_movie_genre():
+    # print(soup.prettify())
+    # for x in soup.find_all('div'):
+    #     print(x.get('moviedesc'))
+    # print(soup.div.get_text())
+
+    # contents = soup.find_all('div')[1].contents
+    # data = []
+    # for i, content in enumerate(contents):
+    #     if content.name == "strong":
+    #         data.append((content.string, contents[i + 1].string))
+    # print data
+
+    mylist = []
+    for strong_tag in soup.find_all('strong'):
+        tag = strong_tag.next_sibling
+        # print tag
+        mylist.append(tag)
+
+        # if strong_tag.text.encode("utf-8").find('Genre'):
+        #     mylist.append(strong_tag.text)
+        # print strong_tag.text
+
+    count = 30
+    mylist2 = []
+    for x in mylist:
+        try:
+            # print(mylist[count])
+            substring = "Thriller"
+            if substring in mylist[count]:
+                print("THRILLER CODE")
+                mylist2.append(mylist[count])
+            count += 5
+        except IndexError:
+            print(str(IndexError))
+
+    for x in mylist2:
+        print(x)
+
+        # print(mylist[3])
+        # print(mylist[30])
+        # print(mylist[35])
+        # print(mylist[50])
+        # print(mylist[100])
 
 
 def main():
     # get_movie_titles()
     get_movie_images()
+    # get_movie_genre()
 
 
 if __name__ == '__main__':
