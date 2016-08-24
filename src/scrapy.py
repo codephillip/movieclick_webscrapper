@@ -49,8 +49,36 @@ def get_movie_titles():
         count += 1
 
 
+def get_movie_images():
+    # get all img with 'src' attribute
+    mylist = list()
+    for link in soup.find_all('img'):
+        print(link['src'])
+        mylist.append(link['src'])
+
+    # list without './Movies 2016_files/pixel.gif'
+    mylist2 = list()
+    for x in mylist:
+        if x != './Movies 2016_files/pixel.gif':
+            mylist2.append(x)
+
+    count = 1
+    for x in mylist2:
+        print('count: ' + str(count))
+        print(x)
+        count += 1
+
+        # remove last link but 19links are missing
+        mylist3 = list()
+        mylist3 = mylist2[0:98]
+        for x in mylist3:
+            print(x)
+
+
 def main():
-    get_movie_titles()
+    # get_movie_titles()
+    get_movie_images()
+
 
 if __name__ == '__main__':
     main()
